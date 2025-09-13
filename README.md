@@ -20,7 +20,7 @@ Superstore ELT Pipeline
    
 <b> <b>
 
-**Data**
+* **Data**
 The pipeline is powered by the **Superstore Sales Dataset** from [Kaggle](https://www.kaggle.com/). This dataset simulates retail transactions with details on orders, customers, products, sales, and shipping, making it a popular choice for analytics and data engineering projects.
 
 🛠️ Tech Stack
