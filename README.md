@@ -36,7 +36,7 @@ Superstore ELT Pipeline
 
 ```text
 .
-├── airflow/                 # DAGs, plugins, data, requirements
+├── requirements.txt                
 ├── lambda_validator.py      # AWS Lambda validation function
 ├── transform_superstore.py  # PySpark transformation job
 ├── snowflake_analysis.sql   # DDL + analytics queries
