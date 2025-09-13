@@ -15,7 +15,13 @@ Superstore ELT Pipeline
 4.  **Load** – Airflow triggers a Snowflake stored procedure to copy curated partitions into FACT\_ORDER\_LINE.
     
 5.  **Analytics** – SQL queries in Snowflake provide sales trends, top customers, and regional performance insights.
-    
+
+
+   
+<b> <b>
+
+**Data**
+The pipeline is powered by the **Superstore Sales Dataset** from [Kaggle](https://www.kaggle.com/). This dataset simulates retail transactions with details on orders, customers, products, sales, and shipping, making it a popular choice for analytics and data engineering projects.
 
 🛠️ Tech Stack
 --------------
