@@ -1,0 +1,5 @@
+apache-airflow-providers-amazon==8.24.0
+apache-airflow-providers-snowflake==5.5.1
+boto3
+pandas
+pyspark==3.5.1

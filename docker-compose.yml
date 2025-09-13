@@ -1,0 +1,74 @@
+# docker-compose.yml
+# ------------------------------------------------------------
+# Local Airflow + Spark-ready environment for Superstore ELT
+# - Spins up Airflow webserver & scheduler with AWS + Java deps
+# - Mounts dags, logs, plugins, and sample data from host
+# - Uses ~/.aws credentials for S3/Lambda/Snowflake integration
+# ------------------------------------------------------------
+
+version: "3.9"
+
+services:
+  # -----------------------------
+  # Airflow Webserver UI
+  # -----------------------------
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow # custom image w/ Python + Java
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AWS_DEFAULT_REGION=us-east-1 # region for S3 + Lambda
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags # DAGs
+      - ./airflow/logs:/opt/airflow/logs # Logs
+      - ./airflow/plugins:/opt/airflow/plugins # Custom plugins
+      - ./airflow/requirements.txt:/requirements.txt
+      - ~/.aws:/home/airflow/.aws:ro # AWS creds
+      - ./airflow/data:/opt/airflow/data:ro # Local master CSV
+    command: >
+      bash -lc "
+        set -euo pipefail;
+        export JAVA_HOME=$$(dirname $$(dirname $$(readlink -f $$(which java))));
+        export PATH=$$JAVA_HOME/bin:$$PATH;
+        python -m pip install --no-cache-dir -r /requirements.txt &&
+        python -m airflow db migrate &&
+        # Bootstrap Airflow admin user
+        python -m airflow users create
+          --username admin
+          --password admin2002
+          --firstname Inioluwa
+          --lastname Eboda
+          --role Admin
+          --email iny20@gmail.com &&
+        python -m airflow webserver
+      "
+    ports: [ "8081:8080" ] #
+
+  # -----------------------------
+  # Airflow Scheduler
+  # -----------------------------
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    depends_on: [ webserver ]
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/requirements.txt:/requirements.txt
+      - ~/.aws:/home/airflow/.aws:ro
+      - ./airflow/data:/opt/airflow/data:ro
+    command: >
+      bash -lc "
+        set -euo pipefail;
+        export JAVA_HOME=$$(dirname $$(dirname $$(readlink -f $$(which java))));
+        export PATH=$$JAVA_HOME/bin:$$PATH;
+        python -m pip install --no-cache-dir -r /requirements.txt &&
+        python -m airflow db migrate &&
+        python -m airflow scheduler
+      "
