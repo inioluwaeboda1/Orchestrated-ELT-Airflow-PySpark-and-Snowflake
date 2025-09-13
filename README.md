@@ -17,7 +17,6 @@ Superstore ELT Pipeline
 5.  **Analytics** – SQL queries in Snowflake provide sales trends, top customers, and regional performance insights.
 
 
-   
 <br><br>
 
 **Data**
