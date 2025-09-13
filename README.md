@@ -1,7 +1,7 @@
 Superstore ELT Pipeline
 =======================
 
-A modern **end-to-end ELT pipeline** built with **Apache Airflow, AWS (S3 + Lambda), PySpark, and Snowflake**. This project demonstrates cloud-native orchestration, scalable transformations, and SQL-based analytics using the popular _Superstore_ dataset.
+**This project delivers a modern end-to-end ELT pipeline that ingests daily Superstore data into AWS S3, validates it with Lambda, transforms it into curated Parquet files using PySpark, and loads it into Snowflake for analytics. It highlights workflow orchestration with Airflow, scalable cloud transformations, and SQL-based business insights.**
 
 🚀 Architecture & Flow
 ----------------------
@@ -16,8 +16,6 @@ A modern **end-to-end ELT pipeline** built with **Apache Airflow, AWS (S3 + Lamb
     
 5.  **Analytics** – SQL queries in Snowflake provide sales trends, top customers, and regional performance insights.
     
-
-![Airflow DAG Screenshot](docs/airflow_dag.png)
 
 🛠️ Tech Stack
 --------------
